@@ -18,60 +18,45 @@
  * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF
  * site: http://www.fsf.org.
  */
-package org.switchyard.component.jca.config.model.v1;
+package org.switchyard.component.common.selector.config.model.v1;
 
 import javax.xml.namespace.QName;
 
-import org.switchyard.component.jca.JCAConstants;
-import org.switchyard.component.jca.config.model.InboundOperationModel;
+import org.switchyard.component.common.selector.config.model.RegexOperationSelectorModel;
 import org.switchyard.config.Configuration;
-import org.switchyard.config.model.BaseModel;
 import org.switchyard.config.model.Descriptor;
+import org.switchyard.config.model.selector.OperationSelectorModel;
+import org.switchyard.config.model.selector.v1.V1OperationSelectorModel;
 
 /**
- * V1 InboundOperation model.
- * 
- * @author <a href="mailto:tm.igarashi@gmail.com">Tomohisa Igarashi</a>
- *
+ * V1 Regex OperationSelector Model.
  */
-public class V1InboundOperation extends BaseModel implements InboundOperationModel {
+public class V1RegexOperationSelectorModel extends V1OperationSelectorModel implements RegexOperationSelectorModel {
 
     /**
      * Constructor.
      */
-    public V1InboundOperation() {
-        super(new QName(JCAConstants.DEFAULT_NAMESPACE, JCAConstants.INBOUND_OPERATION));
+    public V1RegexOperationSelectorModel() {
+        super(new QName(OperationSelectorModel.DEFAULT_NAMESPACE, OperationSelectorModel.OPERATION_SELECTOR + '.' + REGEX));
     }
-    
+
     /**
      * Constructor.
-     * 
      * @param config configuration
      * @param desc descriptor
      */
-    public V1InboundOperation(Configuration config, Descriptor desc) {
+    public V1RegexOperationSelectorModel(Configuration config, Descriptor desc) {
         super(config, desc);
     }
 
     @Override
-    public String getName() {
-        return getModelAttribute(JCAConstants.NAME);
+    public String getExpression() {
+        return getModelAttribute(EXPRESSION);
     }
 
     @Override
-    public InboundOperationModel setName(String name) {
-        setModelAttribute(JCAConstants.NAME, name);
-        return this;
-    }
-
-    @Override
-    public String getSelectedOperation() {
-        return getModelAttribute(JCAConstants.SELECTED_OPERATION);
-    }
-
-    @Override
-    public InboundOperationModel setSelectedOperation(String operation) {
-        setModelAttribute(JCAConstants.SELECTED_OPERATION, operation);
+    public RegexOperationSelectorModel setExpression(String expression) {
+        setModelAttribute(EXPRESSION, expression);
         return this;
     }
 

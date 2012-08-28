@@ -18,65 +18,46 @@
  * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF
  * site: http://www.fsf.org.
  */
-package org.switchyard.component.camel.config.model.v1;
+package org.switchyard.component.common.selector.config.model.v1;
 
 import javax.xml.namespace.QName;
 
-import org.switchyard.component.camel.config.model.OperationSelector;
+import org.switchyard.component.common.selector.config.model.StaticOperationSelectorModel;
 import org.switchyard.config.Configuration;
 import org.switchyard.config.model.Descriptor;
+import org.switchyard.config.model.selector.OperationSelectorModel;
+import org.switchyard.config.model.selector.v1.V1OperationSelectorModel;
 
 /**
- * Version 1 implementation of {@link OperationSelector}. 
- * 
- * @author Daniel Bevenius
- *
+ * V1 Static OperationSelector Model.
  */
-public class V1OperationSelector extends OperationSelector {
+public class V1StaticOperationSelectorModel extends V1OperationSelectorModel implements StaticOperationSelectorModel {
 
     /**
-     * Create a new OperationSelector.
+     * Constructor.
      */
-    public V1OperationSelector() {
-        super(new QName(DEFAULT_NAMESPACE, OPERATION_SELECTOR));
+    public V1StaticOperationSelectorModel() {
+        super(new QName(OperationSelectorModel.DEFAULT_NAMESPACE, OperationSelectorModel.OPERATION_SELECTOR));
     }
     
-    protected V1OperationSelector(Configuration config, Descriptor desc) {
+    /**
+     * Constructor.
+     * @param config configuration
+     * @param desc descriptor
+     */
+    public V1StaticOperationSelectorModel(Configuration config, Descriptor desc) {
         super(config, desc);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public OperationSelector setNamespace(String namespace) {
-        setModelAttribute(NAMESPACE, namespace);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getNamespace() {
-        return getModelAttribute(NAMESPACE);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public OperationSelector setOperationName(String operationName) {
-        setModelAttribute(OPERATION_NAME, operationName);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getOperationName() {
         return getModelAttribute(OPERATION_NAME);
+    }
+
+    @Override
+    public StaticOperationSelectorModel setOperationName(String name) {
+        setModelAttribute(OPERATION_NAME, name);
+        return this;
     }
 
 }

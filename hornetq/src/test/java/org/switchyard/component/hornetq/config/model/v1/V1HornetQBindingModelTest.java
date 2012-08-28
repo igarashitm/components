@@ -30,9 +30,10 @@ import java.net.URL;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.switchyard.component.common.selector.config.model.StaticOperationSelectorModel;
 import org.switchyard.component.hornetq.config.model.HornetQBindingModel;
-import org.switchyard.component.hornetq.config.model.OperationSelector;
 import org.switchyard.config.model.ModelPuller;
+import org.switchyard.config.model.selector.OperationSelectorModel;
 import org.switchyard.config.model.switchyard.SwitchYardModel;
 
 /**
@@ -64,7 +65,7 @@ public class V1HornetQBindingModelTest {
     
     @Test
     public void getOperationSelectorName() {
-        final OperationSelector operationSelector = hbm.getOperationSelector();
+        final StaticOperationSelectorModel operationSelector = StaticOperationSelectorModel.class.cast(hbm.getOperationSelector());
         assertThat(operationSelector.getOperationName(), is(equalTo("printIt")));
     }
 

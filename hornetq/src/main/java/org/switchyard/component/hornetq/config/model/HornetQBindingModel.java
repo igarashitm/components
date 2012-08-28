@@ -44,20 +44,4 @@ public interface HornetQBindingModel extends BindingModel {
      * @return {@link HornetQBindingModel} to support method chaining.
      */
     HornetQBindingModel setHornetQConfig(HornetQConfigModel config);
-    
-    /**
-     * Gets the {@link OperationSelector} on the underlying binding model.
-     * 
-     * @return {@link OperationSelector} The operationSelector for this binding.
-     */
-    OperationSelector getOperationSelector();
-    
-    /**
-     * Sets the {@link OperationSelector} on the underlying binding model.
-     * 
-     * @param operationSelector The operationSelector for this binding.
-     * @return {@link CamelBindingModel} to support method chaining.
-     */
-    HornetQBindingModel setOperationSelector(OperationSelector operationSelector);
-    
 }

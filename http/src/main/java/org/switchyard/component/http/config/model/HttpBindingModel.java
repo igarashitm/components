@@ -50,14 +50,12 @@ public class HttpBindingModel extends V1BindingModel {
      */
     private static final String ADDRESS = "address";
     private static final String CONTEXT_PATH = "contextPath";
-    private static final String OPERATION_NAME = "operationSelector";
     private static final String METHOD = "method";
     private static final String CONTENT_TYPE = "contentType";
 
     private QName _serviceName;
     private String _contextPath;
     private String _address;
-    private String _operationName;
     private String _method;
     private String _contentType;
 
@@ -68,7 +66,7 @@ public class HttpBindingModel extends V1BindingModel {
      */
     public HttpBindingModel() {
         super(HTTP, DEFAULT_NAMESPACE);
-        setModelChildrenOrder(CONTEXT_PATH, ADDRESS, OPERATION_NAME, METHOD, CONTENT_TYPE);
+        setModelChildrenOrder(CONTEXT_PATH, ADDRESS, METHOD, CONTENT_TYPE);
     }
 
     /**
@@ -163,38 +161,6 @@ public class HttpBindingModel extends V1BindingModel {
             setChildModel(addressConfig);
         } else {
             childConfig.setValue(address);
-        }
-    }
-
-    /**
-     * Returns the Service Operation name.
-     * 
-     * @return the operationName
-     */
-    public String getOperationName() {
-        if (_operationName == null) {
-            Configuration childConfig = getModelConfiguration().getFirstChild(OPERATION_NAME);
-            if (childConfig != null) {
-                _operationName = childConfig.getValue();
-            }
-        }
-        return _operationName;
-    }
-
-    /**
-     * Sets the Service Operation name.
-     * 
-     * @param operationName the operationName to set
-     */
-    public void setOperationName(String operationName) {
-        _operationName = operationName;
-        Configuration childConfig = getModelConfiguration().getFirstChild(OPERATION_NAME);
-        if (childConfig == null) {
-            ValueModel opNameConfig = new ValueModel(OPERATION_NAME);
-            opNameConfig.setValue(operationName);
-            setChildModel(opNameConfig);
-        } else {
-            childConfig.setValue(operationName);
         }
     }
 

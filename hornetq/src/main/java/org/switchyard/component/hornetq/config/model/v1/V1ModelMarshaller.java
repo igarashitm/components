@@ -82,10 +82,6 @@ public class V1ModelMarshaller extends BaseMarshaller {
             return new V1PropertyModel(config, getDescriptor());
         }
         
-        if (name.startsWith(V1OperationSelector.OPERATION_SELECTOR)) {
-            return new V1OperationSelector(config, getDescriptor());
-        }
-        
         if (name.equals(ContextMapperModel.CONTEXT_MAPPER)) {
             return new V1ContextMapperModel(config, getDescriptor());
         }

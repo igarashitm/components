@@ -24,6 +24,7 @@ MA  02110-1301, USA.
         xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
         xmlns:spring="http://www.springframework.org/schema/beans"
         xmlns:camelSpring="http://camel.apache.org/schema/spring"
+        xmlns:selector="urn:switchyard-config:selector:1.0"
         elementFormDefault="qualified">
 
     <import namespace="urn:switchyard-config:switchyard:1.0"/>
@@ -37,7 +38,6 @@ MA  02110-1301, USA.
              <sequence>
                  <element name="contextMapper" type="swyd:ContextMapperType"  minOccurs="0" maxOccurs="1"/>
                  <element name="messageComposer" type="swyd:MessageComposerType" minOccurs="0" maxOccurs="1"/>
-                 <element name="operationSelector" type="camel:CamelOperationSelectorType" minOccurs="0" maxOccurs="1"/>
              </sequence>
             </extension>
         </complexContent>
@@ -292,15 +292,6 @@ MA  02110-1301, USA.
             </extension>
         </complexContent>
     </complexType>
-
-    <complexType name="CamelOperationSelectorType">
-      <complexContent>
-         <extension base="sca:OperationSelectorType">
-             <attribute name="namespace" type="string" use="optional"/>
-             <attribute name="operationName" type="string"/>
-         </extension>
-      </complexContent>
-   </complexType>
 
    <complexType name="JavaDSLType">
       <attribute name="class" type="string"/>

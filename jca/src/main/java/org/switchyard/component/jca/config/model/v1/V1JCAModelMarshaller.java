@@ -94,9 +94,6 @@ public class V1JCAModelMarshaller extends BaseMarshaller {
         if (name.equals(JCAConstants.LISTENER)) {
             return new V1ListenerModel(config, getDescriptor());
         }
-        if (name.equals(JCAConstants.INBOUND_OPERATION)) {
-            return new V1InboundOperation(config, getDescriptor()); 
-        }
         if (name.equals(JCAConstants.ENDPOINT)) {
             return new V1EndpointModel(config, getDescriptor());
         }

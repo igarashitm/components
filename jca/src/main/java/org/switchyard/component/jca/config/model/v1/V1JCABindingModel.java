@@ -46,8 +46,7 @@ public class V1JCABindingModel extends V1BindingModel implements JCABindingModel
                                 JCAConstants.INBOUND_CONNECTION,
                                 JCAConstants.OUTBOUND_INTERACTION,
                                 JCAConstants.INBOUND_INTERACTION,
-                                JCAConstants.WIRE_FORMAT,
-                                JCAConstants.OPERATION_SELECTOR);
+                                JCAConstants.WIRE_FORMAT);
     }
 
     /**

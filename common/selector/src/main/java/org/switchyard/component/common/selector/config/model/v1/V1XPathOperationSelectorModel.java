@@ -18,46 +18,46 @@
  * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF
  * site: http://www.fsf.org.
  */
-package org.switchyard.component.hornetq.config.model.v1;
+package org.switchyard.component.common.selector.config.model.v1;
 
 import javax.xml.namespace.QName;
 
-import org.switchyard.component.hornetq.config.model.HornetQConstants;
-import org.switchyard.component.hornetq.config.model.OperationSelector;
+import org.switchyard.component.common.selector.config.model.XPathOperationSelectorModel;
 import org.switchyard.config.Configuration;
 import org.switchyard.config.model.Descriptor;
+import org.switchyard.config.model.selector.OperationSelectorModel;
+import org.switchyard.config.model.selector.v1.V1OperationSelectorModel;
 
 /**
- * Version 1 implementation of {@link OperationSelector}. 
- * 
- * @author Daniel Bevenius
- *
+ * V1 XPath OperationSelector Model.
  */
-public class V1OperationSelector extends OperationSelector {
-    
+public class V1XPathOperationSelectorModel extends V1OperationSelectorModel implements XPathOperationSelectorModel {
+
     /**
-     * Create a new OperationSelector.
+     * Constructor.
      */
-    public V1OperationSelector() {
-        super(new QName(HornetQConstants.DEFAULT_NAMESPACE, OPERATION_SELECTOR));
+    public V1XPathOperationSelectorModel() {
+        super(new QName(OperationSelectorModel.DEFAULT_NAMESPACE, OperationSelectorModel.OPERATION_SELECTOR + '.' + XPATH));
     }
-    
-    protected V1OperationSelector(Configuration config, Descriptor desc) {
+
+    /**
+     * Constructor.
+     * @param config configuration
+     * @param desc descriptor
+     */
+    public V1XPathOperationSelectorModel(Configuration config, Descriptor desc) {
         super(config, desc);
-    }
-    
-    /**
-     * Sets the operation name on the underlying model.
-     * 
-     * @param operationName Then name of the target operation.
-     */
-    public void setOperationName(String operationName) {
-        setModelAttribute(OPERATION_NAME, operationName);
     }
 
     @Override
-    public String getOperationName() {
-        return getModelAttribute(OPERATION_NAME);
+    public String getExpression() {
+        return getModelAttribute(EXPRESSION);
     }
-    
+
+    @Override
+    public XPathOperationSelectorModel setExpression(String expression) {
+        setModelAttribute(EXPRESSION, expression);
+        return this;
+    }
+
 }

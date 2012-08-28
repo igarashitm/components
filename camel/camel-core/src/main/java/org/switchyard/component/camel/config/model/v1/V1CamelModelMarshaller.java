@@ -112,10 +112,6 @@ public class V1CamelModelMarshaller extends BaseMarshaller {
             return new V1CamelFileProducerBindingModel(config, getDescriptor());
         }
 
-        if (name.endsWith(V1OperationSelector.OPERATION_SELECTOR)) {
-            return new V1OperationSelector(config, getDescriptor());
-        }
-
         if (name.startsWith(ComponentImplementationModel.IMPLEMENTATION)) {
             return new V1CamelImplementationModel(config, getDescriptor());
         }

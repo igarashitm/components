@@ -18,45 +18,25 @@
  * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF
  * site: http://www.fsf.org.
  */
-package org.switchyard.component.jca.config.model;
+package org.switchyard.component.jca.selector;
 
-import org.switchyard.config.model.Model;
+import org.switchyard.component.common.selector.OperationSelector;
+import org.switchyard.component.common.selector.OperationSelectorFactory;
+import org.switchyard.component.jca.composer.MappedRecordBindingData;
 
 /**
- * binding.jca/inboundInteraction/inboundOperation model.
- * 
- * @author <a href="mailto:tm.igarashi@gmail.com">Tomohisa Igarashi</a>
- *
+ * An example of OperationSelectorFactory implementation for CCI MappedRecord.
  */
-public interface InboundOperationModel extends Model {
+public class CCIOperationSelectorFactory extends OperationSelectorFactory<MappedRecordBindingData> {
 
-    /**
-     * get name.
-     * 
-     * @return name
-     */
-    String getName();
-    
-    /**
-     * set name.
-     * 
-     * @param name name to set
-     * @return {@link InboundOperationModel} to support method chaining
-     */
-    InboundOperationModel setName(String name);
-    
-    /**
-     * get SelectedOperation.
-     * 
-     * @return SelectedOperation
-     */
-    String getSelectedOperation();
-    
-    /**
-     * set SelectedOperation.
-     * 
-     * @param operation SelectedOperation to set
-     * @return {@link InboundOperationModel} to support method chaining
-     */
-    InboundOperationModel setSelectedOperation(String operation);
+    @Override
+    public Class<MappedRecordBindingData> getTargetClass() {
+        return MappedRecordBindingData.class;
+    }
+
+    @Override
+    public Class<? extends OperationSelector<MappedRecordBindingData>> getDefaultOperationSelectorClass() {
+        return CCIOperationSelector.class;
+    }
+
 }
