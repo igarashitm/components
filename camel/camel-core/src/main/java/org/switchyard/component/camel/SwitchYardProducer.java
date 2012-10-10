@@ -129,7 +129,11 @@ public class SwitchYardProducer extends DefaultProducer {
         // TODO: make this a factory
         // For CXFRS exchanges
         String operationName = (String) camelExchange.getIn().getHeader("operationName");
-
+        if (operationName == null) {
+            // Try SwitchYard Exchange header as a fallback
+            operationName = (String) camelExchange.getIn().getHeader(Exchange.OPERATION_NAME);
+        }
+        
         // From operationSelector
         // Override header value with operationSelector, that's what user wants
         if (_operationName != null) {
