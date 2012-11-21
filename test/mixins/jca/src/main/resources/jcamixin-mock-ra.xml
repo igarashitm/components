@@ -7,13 +7,13 @@
   <eis-type>resource-adapter</eis-type>
   <resourceadapter-version>1.0</resourceadapter-version>
   <resourceadapter>
-    <resourceadapter-class>org.switchyard.test.mixins.jca.MockResourceAdapter</resourceadapter-class>
+    <resourceadapter-class>org.switchyard.component.test.mixins.jca.MockResourceAdapter</resourceadapter-class>
 
     <outbound-resourceadapter>
       <connection-definition>
-        <managedconnectionfactory-class>org.switchyard.test.mixins.jca.MockManagedConnectionFactory</managedconnectionfactory-class>
+        <managedconnectionfactory-class>org.switchyard.component.test.mixins.jca.MockManagedConnectionFactory</managedconnectionfactory-class>
         <connectionfactory-interface>javax.resource.cci.ConnectionFactory</connectionfactory-interface>
-        <connectionfactory-impl-class>org.switchyard.test.mixins.jca.MockConnectionFactory</connectionfactory-impl-class>
+        <connectionfactory-impl-class>org.switchyard.component.test.mixins.jca.MockConnectionFactory</connectionfactory-impl-class>
        </connection-definition>
        <reauthentication-support>false</reauthentication-support>
     </outbound-resourceadapter>
@@ -23,7 +23,7 @@
         <messagelistener>
           <messagelistener-type>javax.resource.cci.MessageListener</messagelistener-type>
           <activationspec>
-            <activationspec-class>org.switchyard.test.mixins.jca.MockActivationSpec</activationspec-class>
+            <activationspec-class>org.switchyard.component.test.mixins.jca.MockActivationSpec</activationspec-class>
             <required-config-property>
               <config-property-name>someProp</config-property-name>
             </required-config-property>
