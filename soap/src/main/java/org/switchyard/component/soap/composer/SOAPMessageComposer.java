@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.activation.DataHandler;
-import javax.mail.util.ByteArrayDataSource;
+//import javax.mail.util.ByteArrayDataSource;
 import javax.wsdl.Operation;
 import javax.wsdl.Part;
 import javax.wsdl.Port;
@@ -157,7 +157,8 @@ public class SOAPMessageComposer extends BaseMessageComposer<SOAPBindingData> {
                         name = name.substring(1, name.length() - 1);
                     }
                 }
-                message.addAttachment(name, new ByteArrayDataSource(apRequest.getDataHandler().getInputStream(), apRequest.getDataHandler().getContentType()));
+                //message.addAttachment(name, new ByteArrayDataSource(apRequest.getDataHandler().getInputStream(), apRequest.getDataHandler().getContentType()));
+                message.addAttachment(name, apRequest.getDataHandler().getDataSource());
             }
         } catch (Exception ex) {
             if (ex instanceof SOAPException) {
