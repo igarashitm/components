@@ -32,6 +32,7 @@ import org.switchyard.SwitchYardException;
 import org.switchyard.component.common.SynchronousInOutHandler;
 import org.switchyard.config.model.composite.SCABindingModel;
 import org.switchyard.deploy.BaseServiceHandler;
+import org.switchyard.deploy.internal.Deployment;
 import org.switchyard.label.BehaviorLabel;
 import org.switchyard.remote.RemoteMessage;
 import org.switchyard.remote.RemoteRegistry;
@@ -126,7 +127,16 @@ public class SCAInvoker extends BaseServiceHandler {
         Message invokeMsg = exchange.getMessage().copy();
         exchange.getContext().mergeInto(invokeMsg.getContext());
         
+        ClassLoader origCl = null;
+        ClassLoader deploymentCl = (ClassLoader) ref.getDomain().getProperty(Deployment.CLASSLOADER_PROPERTY);
+        if (deploymentCl != null) {
+            origCl = Thread.currentThread().getContextClassLoader();
+            Thread.currentThread().setContextClassLoader(deploymentCl);
+        }
         ex.send(invokeMsg);
+        if (origCl != null) {
+            Thread.currentThread().setContextClassLoader(origCl);
+        }
         if (ExchangePattern.IN_OUT.equals(ex.getPattern())) {
             replyHandler.waitForOut();
             if (ex.getMessage() != null) {
