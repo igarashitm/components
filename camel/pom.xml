@@ -31,6 +31,7 @@
         <module>camel-atom</module>
         <module>camel-core</module>
         <module>camel-cxf</module>
+        <module>camel-cxfrs</module>
         <module>camel-file</module>
         <module>camel-ftp</module>
         <module>camel-jms</module>

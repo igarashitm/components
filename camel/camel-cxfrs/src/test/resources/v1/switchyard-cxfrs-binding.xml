@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ - Copyright 2014 Red Hat Inc. and/or its affiliates and other contributors.
+ - 
+ - Licensed under the Apache License, Version 2.0 (the "License");
+ - you may not use this file except in compliance with the License.
+ - You may obtain a copy of the License at
+ - http://www.apache.org/licenses/LICENSE-2.0
+ - Unless required by applicable law or agreed to in writing, software
+ - distributed under the License is distributed on an "AS IS" BASIS,
+ - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ - See the License for the specific language governing permissions and
+ - limitations under the License.
+ -->
+<switchyard xmlns="urn:switchyard-config:switchyard:2.0"
+    xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+    xmlns:cxfrs="urn:switchyard-component-camel-cxfrs:config:2.0">
+
+    <sca:composite name="cxfRsTest" targetNamespace="urn:cxfrs-core:test:2.0">
+        <sca:service name="cxfRsTest" promote="SimpleCxfRsService">
+            <cxfrs:binding.cxfrs>
+                <cxfrs:additionalUriParameters>
+                    <cxfrs:parameter name="properties.foo" value="bar"/>
+                </cxfrs:additionalUriParameters>
+                <cxfrs:cxfRsURI>http://localhost:8080/testRS</cxfrs:cxfRsURI>
+                <cxfrs:resourceClasses>org.switchyard.component.camel.cxfrs.HelloWorldService</cxfrs:resourceClasses>
+                <cxfrs:httpClientAPI>true</cxfrs:httpClientAPI>
+                <cxfrs:synchronous>true</cxfrs:synchronous>
+                <cxfrs:throwExceptionOnFailure>true</cxfrs:throwExceptionOnFailure>
+                <cxfrs:maxClientCacheSize>5</cxfrs:maxClientCacheSize>
+                <cxfrs:setDefaultBus>true</cxfrs:setDefaultBus>
+                <cxfrs:bindingStyle>SimpleConsumer</cxfrs:bindingStyle>
+            </cxfrs:binding.cxfrs>
+        </sca:service>
+    </sca:composite>
+</switchyard>
