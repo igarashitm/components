@@ -92,6 +92,7 @@ public class SwitchYardCDIServiceDiscovery implements Extension {
     public void processBean(@Observes ProcessBean processBean, BeanManager beanManager) {
         Bean<?> bean = processBean.getBean();
         Set<InjectionPoint> injectionPoints = bean.getInjectionPoints();
+        Class<?> owner = bean.getBeanClass();
 
         // Create proxies for the relevant injection points...
         for (InjectionPoint injectionPoint : injectionPoints) {
@@ -102,9 +103,9 @@ public class SwitchYardCDIServiceDiscovery implements Extension {
                         Class<?> memberType = ((Field) member).getType();
                         if (memberType.isInterface()) {
                             if (memberType.equals(ReferenceInvoker.class)) {
-                                addInvokerBean((Reference)qualifier, injectionPoint.getQualifiers());
+                                addInvokerBean((Reference)qualifier, injectionPoint.getQualifiers(), owner);
                             } else {
-                                addInjectableClientProxyBean((Field) member, (Reference) qualifier, injectionPoint.getQualifiers(), beanManager);
+                                addInjectableClientProxyBean((Field) member, (Reference) qualifier, injectionPoint.getQualifiers(), beanManager, owner);
                             }
                         }
                     }
@@ -150,7 +151,7 @@ public class SwitchYardCDIServiceDiscovery implements Extension {
         _logger.debug("CDI Bean discovery process completed.");
     }
 
-    private void addInjectableClientProxyBean(Field injectionPointField, Reference serviceReference, Set<Annotation> qualifiers, BeanManager beanManager) {
+    private void addInjectableClientProxyBean(Field injectionPointField, Reference serviceReference, Set<Annotation> qualifiers, BeanManager beanManager, Class<?> owner) {
         final String serviceName;
 
         if (serviceReference.value().length() > 0) {
@@ -159,23 +160,25 @@ public class SwitchYardCDIServiceDiscovery implements Extension {
             serviceName = injectionPointField.getType().getSimpleName();
         }
 
-        addClientProxyBean(serviceName, injectionPointField.getType(), qualifiers);
+        addClientProxyBean(serviceName, injectionPointField.getType(), qualifiers, owner);
     }
 
-    private void addClientProxyBean(String serviceName, Class<?> beanClass, Set<Annotation> qualifiers) {
+    private void addClientProxyBean(String serviceName, Class<?> beanClass, Set<Annotation> qualifiers, Class<?> owner) {
         // Check do we already have a proxy for this service interface...
         for (ClientProxyBean clientProxyBean : _createdProxyBeans) {
-            if (serviceName.equals(clientProxyBean.getServiceName()) && beanClass == clientProxyBean.getBeanClass()) {
+            if (serviceName.equals(clientProxyBean.getServiceName())
+                    && beanClass == clientProxyBean.getBeanClass()
+                    && owner == clientProxyBean.getOwnerClass()) {
                 // ignore... we already have a proxy ...
                 return;
             }
         }
 
-        ClientProxyBean clientProxyBean = new ClientProxyBean(serviceName, beanClass, qualifiers, _beanDeploymentMetaData);
+        ClientProxyBean clientProxyBean = new ClientProxyBean(serviceName, beanClass, qualifiers, _beanDeploymentMetaData, owner);
         _createdProxyBeans.add(clientProxyBean);
     }
     
-    private void addInvokerBean(Reference serviceReference, Set<Annotation> qualifiers) {
+    private void addInvokerBean(Reference serviceReference, Set<Annotation> qualifiers, Class<?> owner) {
         // Value of Reference annotation is required for ReferenceInvoker
         if (serviceReference.value().length() == 0) {
             _logger.debug("Unable to create reference invoker for @Reference with missing value");
@@ -184,13 +187,14 @@ public class SwitchYardCDIServiceDiscovery implements Extension {
         String serviceName = serviceReference.value();
         // Check do we already have an invoker for this service reference ...
         for (ReferenceInvokerBean invokerBean : _createdInvokerBeans) {
-            if (serviceName.equals(invokerBean.getServiceName())) {
+            if (serviceName.equals(invokerBean.getServiceName())
+                    && owner == invokerBean.getOwnerClass()) {
                 // ignore... we already have a proxy ...
                 return;
             }
         }
 
-        ReferenceInvokerBean invokerBean = new ReferenceInvokerBean(serviceName, qualifiers);
+        ReferenceInvokerBean invokerBean = new ReferenceInvokerBean(serviceName, qualifiers, owner);
         _createdInvokerBeans.add(invokerBean);
     }
 

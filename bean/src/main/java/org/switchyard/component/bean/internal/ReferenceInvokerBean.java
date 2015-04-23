@@ -29,16 +29,18 @@ public class ReferenceInvokerBean extends InternalBean implements ReferenceInvok
 
     private final String _serviceName;
     private ServiceReference _reference;
+    private Class<?> _ownerClass;
     
     /**
      * Creates a new ReferenceInvokerBean.
      * @param serviceName name of the service reference
      * @param qualifiers any qualifiers associated with the injection point
      */
-    public ReferenceInvokerBean(String serviceName, Set<Annotation> qualifiers) {
+    public ReferenceInvokerBean(String serviceName, Set<Annotation> qualifiers, Class<?> owner) {
         super(ReferenceInvoker.class, qualifiers);
         setProxyObject(this);
         _serviceName = serviceName;
+        _ownerClass = owner;
     }
     
     /**
@@ -65,6 +67,14 @@ public class ReferenceInvokerBean extends InternalBean implements ReferenceInvok
         return _reference;
     }
     
+    /**
+     * Returns the owner class which has this invoker bean injected.
+     * @return owner class
+     */
+    public Class<?> getOwnerClass() {
+        return _ownerClass;
+    }
+
     @Override
     public ReferenceInvocation newInvocation() {
         assertReference();

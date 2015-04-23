@@ -52,6 +52,7 @@ public class BeanComponentActivator extends BaseActivator {
     
     @Override
     public ServiceHandler activateService(QName serviceName, ComponentModel config) {
+        Class<?> implClass = config.getImplementation().getClass();
         lookupBeanMetaData();
         
         // This is a bit of a kludge - catches cases where an implementation 
@@ -59,13 +60,15 @@ public class BeanComponentActivator extends BaseActivator {
         if (serviceName == null) {
             for (ComponentReferenceModel reference : config.getReferences()) {
                 for (ClientProxyBean proxyBean : _beanDeploymentMetaData.getClientProxies()) {
-                    if (reference.getQName().getLocalPart().equals(proxyBean.getServiceName())) {
+                    if (reference.getQName().getLocalPart().equals(proxyBean.getServiceName())
+                            && implClass.equals(proxyBean.getOwnerClass())) {
                         QName refName = ComponentNames.qualify(config.getQName(), reference.getQName());
                         proxyBean.setService(getServiceDomain().getServiceReference(refName));
                     }
                 }
                 for (ReferenceInvokerBean invokerBean : _beanDeploymentMetaData.getReferenceInvokers()) {
-                    if (reference.getQName().getLocalPart().equals(invokerBean.getServiceName())) {
+                    if (reference.getQName().getLocalPart().equals(invokerBean.getServiceName())
+                            && implClass.equals(invokerBean.getOwnerClass())) {
                         QName refName = ComponentNames.qualify(config.getQName(), reference.getQName());
                         invokerBean.setReference(getServiceDomain().getServiceReference(refName));
                     }
@@ -80,7 +83,7 @@ public class BeanComponentActivator extends BaseActivator {
                 ServiceProxyHandler handler = descriptor.getHandler();
                 for (ComponentReferenceModel reference : config.getReferences()) {
                     QName refName = ComponentNames.qualify(config.getQName(), reference.getQName());
-                    handler.addReference(getServiceDomain().getServiceReference(refName));
+                    handler.addReference(implClass, getServiceDomain().getServiceReference(refName));
                 }
                 handler.injectImplementationProperties(resolver);
                 return handler;

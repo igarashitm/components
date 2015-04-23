@@ -79,6 +79,11 @@ public class ClientProxyBean implements Bean {
     private Object _proxyBean;
 
     /**
+     * The owner class which has this proxy bean injected.
+     */
+    private Class<?> _ownerClass;
+
+    /**
      * Public constructor.
      *
      * @param serviceName   The name of the ESB Service being proxied to.
@@ -86,9 +91,10 @@ public class ClientProxyBean implements Bean {
      * @param qualifiers     The CDI bean qualifiers.  Copied from the injection point.
      * @param beanDeploymentMetaData Deployment metadata.
      */
-    public ClientProxyBean(String serviceName, Class<?> proxyInterface, Set<Annotation> qualifiers, BeanDeploymentMetaData beanDeploymentMetaData) {
+    public ClientProxyBean(String serviceName, Class<?> proxyInterface, Set<Annotation> qualifiers, BeanDeploymentMetaData beanDeploymentMetaData, Class<?> owner) {
         this._serviceName = serviceName;
         this._serviceInterface = proxyInterface;
+        this._ownerClass = owner;
 
         if (qualifiers != null) {
             this._qualifiers = qualifiers;
@@ -128,6 +134,14 @@ public class ClientProxyBean implements Bean {
      */
     public void setService(ServiceReference service) {
         this._service = service;
+    }
+
+    /**
+     * Get the owner class which has this proxy bean injected.
+     * @return
+     */
+    public Class<?> getOwnerClass() {
+        return _ownerClass;
     }
 
     /**

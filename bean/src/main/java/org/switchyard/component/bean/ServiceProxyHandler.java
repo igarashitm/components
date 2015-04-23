@@ -66,8 +66,8 @@ public class ServiceProxyHandler extends BaseServiceHandler implements ServiceHa
      */
     private BeanDeploymentMetaData _beanDeploymentMetaData;
     
-    private Map<String, ServiceReference> _references = 
-            new HashMap<String, ServiceReference>();
+    private Map<String, Map<Class<?>,ServiceReference>> _references = 
+            new HashMap<String, Map<Class<?>,ServiceReference>>();
 
     /**
      * Public constructor.
@@ -106,9 +106,14 @@ public class ServiceProxyHandler extends BaseServiceHandler implements ServiceHa
      * Add the specified reference to the handler.
      * @param reference service reference
      */
-    public void addReference(ServiceReference reference) {
+    public void addReference(Class<?> owner, ServiceReference reference) {
         QName refName = ComponentNames.unqualify(reference);
-        _references.put(refName.getLocalPart(), reference);
+        Map<Class<?>,ServiceReference> refs = _references.get(refName.getLocalPart());
+        if (refs == null) {
+            refs = new HashMap<Class<?>,ServiceReference>();
+        }
+        refs.put(owner, reference);
+        _references.put(refName.getLocalPart(), refs);
     }
 
     /**
@@ -210,14 +215,20 @@ public class ServiceProxyHandler extends BaseServiceHandler implements ServiceHa
         // Initialise any client proxies to the started service...
         for (ClientProxyBean proxyBean : _beanDeploymentMetaData.getClientProxies()) {
             if (_references.containsKey(proxyBean.getServiceName())) {
-                proxyBean.setService(_references.get(proxyBean.getServiceName()));
+                Map<Class<?>,ServiceReference> refs = _references.get(proxyBean.getServiceName());
+                if (refs.containsKey(proxyBean.getOwnerClass())) {
+                    proxyBean.setService(refs.get(proxyBean.getOwnerClass()));
+                }
             }
         }
         
         // Initialise ReferenceInvokers
         for (ReferenceInvokerBean invokerBean : _beanDeploymentMetaData.getReferenceInvokers()) {
             if (_references.containsKey(invokerBean.getServiceName())) {
-                invokerBean.setReference(_references.get(invokerBean.getServiceName()));
+                Map<Class<?>,ServiceReference> refs = _references.get(invokerBean.getServiceName());
+                if (refs.containsKey(invokerBean.getOwnerClass())) {
+                    invokerBean.setReference(refs.get(invokerBean.getOwnerClass()));
+                }
             }
         }
     }

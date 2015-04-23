@@ -116,7 +116,7 @@ public class SimpleCDIDeployment extends AbstractDeployment {
             QName serviceQName = XMLHelper.createQName(domain.getName().getNamespaceURI(), serviceName);
             domain.registerService(serviceQName, serviceInterface, handler);
             service = domain.registerServiceReference(serviceQName, serviceInterface);
-            handler.addReference(service);
+            handler.addReference(null, service);
             handler.start();
 
         }
