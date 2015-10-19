@@ -25,6 +25,7 @@ import org.switchyard.Message;
 import org.switchyard.Scope;
 import org.switchyard.ServiceDomain;
 import org.switchyard.ServiceReference;
+import org.switchyard.component.common.Endpoint;
 import org.switchyard.component.common.SynchronousInOutHandler;
 import org.switchyard.component.common.composer.MessageComposer;
 import org.switchyard.component.resteasy.composer.RESTEasyBindingData;
@@ -49,7 +50,7 @@ public class InboundHandler extends BaseServiceHandler {
     private final String _gatewayName;
     private ServiceDomain _domain;
     private ServiceReference _service;
-    private Resource _resource;
+    private Endpoint _endpoint;
     private MessageComposer<RESTEasyBindingData> _messageComposer;
     private SecurityContextManager _securityContextManager;
 
@@ -82,7 +83,7 @@ public class InboundHandler extends BaseServiceHandler {
                 contextPath = "/";
             }
             // Add as singleton instances
-            _resource = ResourcePublisherFactory.getPublisher().publish(contextPath, instances);
+            _endpoint = ResourcePublisherFactory.getPublisher().publish(_domain, contextPath, instances);
             // Create and configure the RESTEasy message composer
             _messageComposer = RESTEasyComposition.getMessageComposer(_config);
         } catch (Exception e) {
@@ -141,7 +142,7 @@ public class InboundHandler extends BaseServiceHandler {
      */
     @Override
     protected void doStop() {
-        _resource.stop();
+        _endpoint.stop();
     }
 
     @Override

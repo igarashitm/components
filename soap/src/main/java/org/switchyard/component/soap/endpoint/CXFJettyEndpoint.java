@@ -34,6 +34,7 @@ import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.addressing.impl.AddressingFeatureApplier;
 import org.apache.cxf.ws.addressing.soap.DecoupledFaultHandler;
 import org.switchyard.common.type.Classes;
+import org.switchyard.component.common.Endpoint;
 import org.switchyard.component.soap.SOAPLogger;
 import org.switchyard.component.soap.AddressingInterceptor;
 import org.switchyard.component.soap.InboundHandler;
@@ -43,7 +44,7 @@ import org.switchyard.component.soap.InboundHandler;
  *
  * @author Magesh Kumar B <mageshbk@jboss.com> (C) 2012 Red Hat Inc.
  */
-public class CXFJettyEndpoint implements WSEndpoint {
+public class CXFJettyEndpoint implements Endpoint {
 
     private static Bus _bus;
 
@@ -122,6 +123,10 @@ public class CXFJettyEndpoint implements WSEndpoint {
         _server.start();
     }
 
+    @Override
+    public void start() {
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -130,4 +135,5 @@ public class CXFJettyEndpoint implements WSEndpoint {
         _server.stop();
         _server.destroy();
     }
+
 }

@@ -22,6 +22,7 @@ import javax.xml.ws.Endpoint;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.handler.MessageContext;
 
+import org.switchyard.ServiceDomain;
 import org.switchyard.component.soap.InboundHandler;
 import org.switchyard.component.soap.WebServicePublishException;
 import org.switchyard.component.soap.config.model.SOAPBindingModel;
@@ -38,7 +39,7 @@ public class CXFJettyEndpointPublisher extends AbstractEndpointPublisher {
     /**
      * {@inheritDoc}
      */
-    public synchronized WSEndpoint publish(final SOAPBindingModel config, final String bindingId, final InboundHandler handler, WebServiceFeature... features) {
+    public synchronized org.switchyard.component.common.Endpoint publish(final ServiceDomain domain, final SOAPBindingModel config, final String bindingId, final InboundHandler handler, WebServiceFeature... features) {
         CXFJettyEndpoint wsEndpoint = null;
         try {
             initialize(config);
